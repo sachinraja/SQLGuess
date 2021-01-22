@@ -60,7 +60,7 @@ class Room():
     def start(self) -> None:
         """Start the room's schedule timer."""
         self.status = 1
-        threading.Thread(target=self.manage_time).start()
+        socketio.start_background_task(target=self.manage_time)
 
     def manage_time(self) -> None:
         """Manage the room's event schedule."""

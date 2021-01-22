@@ -1,8 +1,8 @@
 import os
 import json
 import random
-import threading
 from typing import Tuple, List
+from eventlet import spawn_after
 import psycopg2
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
@@ -54,20 +54,22 @@ class GameDatabase():
 
         with self._readonly_conn.cursor() as cur:
             # attempt to execute query, ready to catch error if user input is bad
-            query_timeout = threading.Timer(0.5, self._readonly_conn.cancel)
-            query_timeout.start()
+            query_timeout = spawn_after(0.5, self._readonly_conn.cancel)
+
             try:
                 cur.execute(query)
                 returning['result'] = list(cur.fetchall())
                 returning['columns'] = [desc[0] for desc in cur.description]
+
+            except psycopg2.errors.QueryCanceled: # pylint: disable=no-member
+                returning['error'] = "canceling statement due to statement timeout: execution was longer than 0.5 seconds"
+
             except Exception as e: # pylint: disable=broad-except
-                if isinstance(e, psycopg2.errors.QueryCanceled): # pylint: disable=no-member
-                    returning['error'] = "canceling statement due to statement timeout: execution was longer than 0.5 seconds"
+                returning['error'] = str(e)
 
-                else:
-                    returning['error'] = str(e)
+            else:
+                query_timeout.cancel()
 
-            query_timeout.cancel()
             self._readonly_conn.rollback()
             return returning
 

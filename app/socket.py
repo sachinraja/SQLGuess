@@ -3,7 +3,9 @@ from flask import session
 from flask_socketio import SocketIO, emit, join_room
 from app import app, game_database, room_manager
 
-socketio = SocketIO(app, async_mode='threading')
+socketio = SocketIO(app, async_mode='eventlet')
+import eventlet
+eventlet.monkey_patch()
 
 @socketio.on('connect')
 def connect_user():

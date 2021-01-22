@@ -4,10 +4,12 @@ import random
 from typing import Tuple, List
 from eventlet import spawn_after
 import psycopg2
+from psycopg2.pool import ThreadedConnectionPool
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.schema import CreateSchema
+from flask_socketio import SocketIO
 from app.game_models import Base, Animal, State, Location, AnimalLocation
 
 class GameDatabase():
@@ -38,7 +40,8 @@ class GameDatabase():
 
             self.load_seed_data()
 
-        self._readonly_conn = psycopg2.connect(os.environ['READONLY_DATABASE_URL'])
+        self._readonly_conn_pool = ThreadedConnectionPool(minconn=1, maxconn=20, dsn=os.environ['READONLY_DATABASE_URL'])
+        self._query_timeout = 0.5
 
     def execute_user_input(self, query : str) -> dict:
         """Execute a query from user input.
@@ -52,9 +55,10 @@ class GameDatabase():
 
         returning = {}
 
-        with self._readonly_conn.cursor() as cur:
+        conn = self._readonly_conn_pool.getconn()
+        with conn.cursor() as cur:
             # attempt to execute query, ready to catch error if user input is bad
-            query_timeout = spawn_after(0.5, self._readonly_conn.cancel)
+            query_timeout = spawn_after(self._query_timeout, conn.cancel)
 
             try:
                 cur.execute(query)
@@ -70,7 +74,7 @@ class GameDatabase():
             else:
                 query_timeout.cancel()
 
-            self._readonly_conn.rollback()
+            conn.rollback()
             return returning
 
     def get_random_location(self) -> Tuple[Location, List[Tuple]]:

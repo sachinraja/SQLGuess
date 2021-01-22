@@ -1,6 +1,5 @@
 import string
 import uuid
-import threading
 import time
 import random
 import json
@@ -9,7 +8,6 @@ from flask_socketio import SocketIO
 from app import game_database
 
 socketio = None
-room_manager = None
 
 class User():
     def __init__(self, display_name : str):
@@ -329,7 +327,7 @@ class RoomManager():
         """
 
         room = self.get_room(room_code.lower())
-        if not room:
+        if not room or room.is_closed:
             return None
 
         return room.add_user(display_name)
@@ -384,13 +382,5 @@ class RoomManager():
 
         global socketio
         socketio = socketio_in
-    
-    def register_room_manager(self, room_manager_in) -> None:
-        """Register the room manager for use in the module.
 
-        Args:
-            room_manager (RoomManager): The room manager.
-        """
-
-        global room_manager
-        room_manager = room_manager_in
+room_manager = RoomManager()

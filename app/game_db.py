@@ -2,19 +2,19 @@ import os
 import json
 import random
 from typing import Tuple, List
+from dotenv import load_dotenv
 from eventlet import spawn_after
 import psycopg2
 from psycopg2.pool import ThreadedConnectionPool
-from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.schema import CreateSchema
-from flask_socketio import SocketIO
 from app.game_models import Base, Animal, State, Location, AnimalLocation
 
 class GameDatabase():
     def __init__(self):
-        # sqlalchemy: create initial engine with file db
+        # create sqlalchemy engine for use in other modules
+        # use psycopg2 connection for user queries
         load_dotenv()
         self.engine = create_engine(os.environ['DATABASE_URL'])
         self.Session = sessionmaker(self.engine) # pylint: disable=invalid-name

@@ -10,10 +10,11 @@ def room(room_code):
     if not game_room:
         return render_template('status.html', status_msg="Invalid Room Code", description=f"""<a class="link-light" href="{url_for('room.join')}">Join a room</a>""")
 
-    if game_room.is_closed:
-        return render_template('status.html', status_msg="Room is closed", description=f"""<a class="link-light" href="{url_for('room.join')}">Join a room</a>""")
-
     if not game_room.validate_user(session.get("_id")):
         return render_template('status.html', status_msg="Unable to Authenticate", description=f"""<a class="link-light" href="{url_for('room.join')}">Try to join a room again.</a>""")
+
+    # do not allow any more connections if the host left
+    if game_room.host_left and not game_room.is_host(session.get('_id')):
+        return render_template('status.html', status_msg="Room is closed", description=f"""<a class="link-light" href="{url_for('room.join')}">Join a room</a>""")
 
     return render_template('game.html', room_status=game_room.status, room_code=game_room.room_code, is_host=session.get('user_type')=='host' != None, current_time=game_room.current_time)

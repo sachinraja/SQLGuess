@@ -15,10 +15,17 @@ def connect_user():
     if not room:
         return
 
+    if room.is_closed and not room.host_left:
+        room.is_closed = False
+
     user_conn_id = session.get('_id')
     user = room.get_user(user_conn_id)
     if not user:
         return
+
+    if room.is_host(user_conn_id):
+        room.host_left = False
+        room.is_closed = False
 
     user.connections += 1
 

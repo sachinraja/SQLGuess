@@ -4,6 +4,7 @@ import time
 import random
 import json
 from typing import Union, List, Dict, Tuple
+from eventlet import spawn_after
 from flask_socketio import SocketIO
 from app import game_database
 
@@ -51,6 +52,8 @@ class Room():
         self.given_hints = []
 
         self.is_closed = False
+        self.host_left = False
+
         self.start_time = 80
         self.current_time = self.start_time
         self.status = 0 # 0 = waiting for users to connect, 1 = game started and in round, 2 = in-between rounds
@@ -79,6 +82,7 @@ class Room():
         
          # Check if the room was closed
         if self.is_closed:
+            self.status = 2
             room_manager.close_room(self)
             return
 
@@ -222,6 +226,11 @@ class Room():
         user = self.get_user(user_conn_id)
         user.status = 0
 
+        # close room if host disconnects
+        if self.is_host(user.conn_id):
+            room_manager.wait_host_close_room(self)
+            return
+
         self._check_empty()
 
     def _check_empty(self) -> None:
@@ -230,13 +239,7 @@ class Room():
         room_empty = not any(user.connections > 0 for user in self.users)
 
         if room_empty:
-            # mark for closure so thread doesn't send any events later on
-            if self.status == 1:
-                self.is_closed = True
-
-            # close immediately if there is no thread
-            else:
-                room_manager.close_room(self)
+            room_manager.wait_close_room(self)
 
     def validate_user(self, user_conn_id : uuid.UUID) -> bool:
         """Check if a user is allowed to connect to the room.
@@ -327,7 +330,7 @@ class RoomManager():
         """
 
         room = self.get_room(room_code.lower())
-        if not room or room.is_closed:
+        if not room or room.is_closed or room.host_left:
             return None
 
         return room.add_user(display_name)
@@ -367,20 +370,96 @@ class RoomManager():
         self._next_room_id += 1
         return room
 
-    def close_room(self, room : Room):
-        """Close a room and add it to open rooms."""
-
-        self._active_rooms.remove(room)
-        self._open_room_ids.append(room.room_id)
-
-    def register_socketio(self, socketio_in : SocketIO) -> None:
-        """Register the socket.io connection manager for room management.
+    def wait_host_close_room(self, room : Room) -> None:
+        """Mark a room for closure or close it depending on its status. Wait for a few seconds before closing. Checks if the host has reconnected.
 
         Args:
-            socketio_in (SocketIO): The socket.io connection manager.
+            room (Room): The room to close.
         """
 
-        global socketio
-        socketio = socketio_in
+        room.host_left = True
+        room.is_closed = True
+
+        if room.status == 1:
+            return
+
+        spawn_after(5, self._host_close_room, room)
+
+    def wait_close_room(self, room : Room) -> None:
+        """Mark a room for closure or close it depending on its status. Wait for a few seconds before closing.
+
+        Args:
+            room (Room): THe room to close.
+        """
+
+        room.is_closed = True
+
+        # simply mark for closure so thread doesn't send any events later on
+        if room.status == 1:
+            return
+
+        # wait some time before closing in case of reconnect
+        spawn_after(5, self._close_room, room)
+
+    def close_room(self, room : Room) -> None:
+        """Mark a room for closure or close it depending on its status. Close it immediately.
+
+        Args:
+            room (Room): The room to close.
+        """
+
+        room.is_closed = True
+
+        if room.status == 1:
+            return
+
+        self._close_room(room)
+
+    def _host_close_room(self, room : Room) -> None:
+        """Close a room and add it to open rooms.
+
+        Args:
+            room (Room): The room to close.
+        """
+
+        print("Host Checking:", room.room_code)
+
+        if not room.host_left:
+            return
+        print("Host Closed:", room.room_code)
+        socketio.emit('end_game', room=room.room_code)
+
+        if room in self._active_rooms:
+            self._active_rooms.remove(room)
+            self._open_room_ids.append(room.room_id)
+
+    def _close_room(self, room : Room) -> None:
+        """Close a room and add it to open rooms.
+
+        Args:
+            room (Room): The room to close.
+        """
+
+        print("Checking:", room.room_code)
+
+        if not room.is_closed:
+            return
+        print("Closed:", room.room_code)
+        # in case anyone is still in the room
+        socketio.emit('end_game', room=room.room_code)
+
+        if room in self._active_rooms:
+            self._active_rooms.remove(room)
+            self._open_room_ids.append(room.room_id)
+
+def register_socketio(socketio_in : SocketIO) -> None:
+    """Register the socket.io connection manager for room management.
+
+    Args:
+        socketio_in (SocketIO): The socket.io connection manager.
+    """
+
+    global socketio
+    socketio = socketio_in
 
 room_manager = RoomManager()

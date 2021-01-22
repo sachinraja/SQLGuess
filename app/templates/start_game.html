@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+
+{% block scripts %}
+<script>
+    let gameURL = "{{ url_for('game.game_room', room_code=room_code) }}";
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/socket.io-client@3.0.4/dist/socket.io.min.js" integrity="sha256-TVYbK1yBfvKFK8n+2nNa8fcQExJg3fjlN/O69UkayT4=" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='js/start_game.js') }}?v=1.0" defer></script>
+<script src="{{ url_for('static', filename='js/requests.js') }}?v=1.0"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div id="displayNames" class="row"></div>
+
+    {% if session.get('user_type')=='host' %}
+    <input class="btn btn-lg btn-primary mt-2 w-50 h-50 m-auto d-block" type="button" onclick="makeRequest('/game/start_game');" value="Start Game">
+    {% endif %}
+</div>
+{% endblock %}

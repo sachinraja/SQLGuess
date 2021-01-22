@@ -1,0 +1,25 @@
+.CodeMirror{
+    border-radius: .25rem;
+}
+
+.CodeMirror *{
+    font-size: 16px;
+}
+
+.table{
+    background: #151515;
+    color: #eae9e0 !important;
+}
+
+#results > tbody > tr:last-child > td, tbody > tr:last-child > th {
+    border-bottom: 0;
+}
+
+/* center columns and rows */
+#results > thead > tr > th:nth-child(n){
+    text-align: center;
+}
+
+#results > tbody > tr > th:nth-child(n), #results > tbody > tr > td:nth-child(n) {
+    text-align: center;
+}

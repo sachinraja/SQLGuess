@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="w-50 mt-5 m-auto">
+    <div>
+        <img src="{{ url_for('static', filename='icons/logo.png') }}" class="img-fluid w-50 d-block m-auto" alt="SQL Guess logo">
+        <p class="mt-2 text-light"><strong>SQL Guess</strong> is a fun multiplayer game for practicing SQL queries while playing against your friends. Write queries to find locations, occupations, and more using hints given to you.</p>
+    </div>
+</div>
+{% endblock %}

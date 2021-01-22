@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="w-50 m-auto mt-5">
+    <form method="post">
+        {{ form.display_name.label(class="form-label text-light") }}
+        {{ form.display_name(class="form-control", placeholder="SQL Master") }}
+        {{ form.create_room_submit(class="btn btn-primary mt-2") }}
+    </form>
+
+    {% if request.method == "POST" %}
+    <div class="mt-1">
+        {% for field, errors in form.errors.items() %}
+            <div class="alert alert-danger" role="alert">
+                {{ form[field].label }}: {{ ''.join(errors) }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'layout.html' %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/game.css') }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.59.1/lib/codemirror.min.css" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.59.1/theme/base16-dark.css" integrity="sha256-emGSdkvT2hWPB1YJQvR8bvsxXcxGK3fjLU+hQMf9IkE=" crossorigin="anonymous">
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/socket.io-client@3.0.4/dist/socket.io.min.js" integrity="sha256-TVYbK1yBfvKFK8n+2nNa8fcQExJg3fjlN/O69UkayT4=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5.59.1/lib/codemirror.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5.59.1/mode/sql/sql.js" integrity="sha256-UDIvbtdq0zawEvPvsCuA66H0Qm5sgw8xLiPFeCj92AE=" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='js/request.js') }}?v=1.0"></script>
+<script src="{{ url_for('static', filename='js/user_event.js') }}?v=1.0" defer></script>
+<script src="{{ url_for('static', filename='js/game.js') }}?v=1.0" defer></script>
+
+<script>
+    onload = function(){ 
+        loadRoom({{ room_status }}, {{ current_time }}); 
+    };
+
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="lobby">
+    <div class="container mt-4">
+        <div id="displayNames" class="row"></div>
+
+        {% if is_host %}
+        <input class="btn btn-lg btn-primary mt-2 w-50 h-50 m-auto d-block" type="button" onclick="emitStartGame();" value="Start Game">
+        {% endif %}
+    </div>
+</div>
+
+<div id="gameRoom" class="d-none">
+    <div class="w-50 m-auto mt-5">
+        <h2 id="timer" class="h1 text-light text-center">80</h2>
+
+        <ol id="hints" class="text-light"></ol>
+
+        <div class="row mt-4">
+            <div class="col">
+                <input id="guess" class="form-control" maxlength="1000" required>
+            </div>
+
+            <div class="col p-0">
+                <input id="guessButton" class="btn btn-primary" type="button" onclick="makeGuess();" value="Guess">
+            </div>
+        </div>
+
+        <div id="guessOutput" class="mt-2"></div>
+
+        <input id="codeEditor" class="form-control" maxlength="1000" required>
+
+        <div>
+            <input id="queryButton" class="btn btn-primary mt-2" type="button" onclick="makeQuery();" value="Query">
+            <span id="queryCount" class="h1 text-light align-middle">0</span>
+        </div>
+
+        <div id="queryOutput" class="mt-2"></div>
+    </div>
+
+    <table class="table m-auto mb-5 w-25 rounded border-bottom-0" id="results"></table>
+</div>
+
+<div id="endRound" class="d-none">
+    <div class="m-auto mt-5">
+        <table class="table m-auto mb-2 w-50 rounded border-bottom-0" id="endRoundTable">
+            <thead>
+                <tr>
+                    <th>Display Name</th>
+                    <th>Queries</th>
+                    <th>Guessed Correctly</th>
+                </tr>
+            </thead>
+
+            <tbody id="endRoundData"></tbody>
+        </table>
+
+        <p id="correctLocation" class="text-light text-center"></p>
+
+        {% if is_host %}
+        <div class="row m-auto" style="width: fit-content;">
+            <div class="col">
+                <input class="btn btn-md btn-primary" type="button" onclick="emitNextRound();" value="Next Round">
+            </div>
+
+            <div class="col">
+                <input class="btn btn-md btn-primary" type="button" onclick="emitEndGame();" value="End Game">
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div id="endGame" class="d-none">
+    <div class="text-center mt-5">
+        <h1 class="text-warning">The host has ended the game.</h1>
+        <p class="text-light"><a class="link-light" href="{{ url_for('room.join') }}">Join a room</a></p>
+    </div>
+</div>
+{% endblock %}

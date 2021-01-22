@@ -1,0 +1,615 @@
+{
+    "locations": [
+        {
+            "name": "Silkdrift",
+            "biome": "freshwater",
+            "state": "Lasmoania",
+            "animals": [
+                "Minnow",
+                "Pike",
+                "Shad",
+                "Sturgeon",
+                "Otter",
+                "Turtle",
+                "Eel"
+            ]
+        },
+        {
+            "name": "Dimhelm",
+            "biome": "forest",
+            "state": "Lasmoania",
+            "animals": [
+                "Capybara",
+                "Meerkat",
+                "Zebra"
+            ]
+        },
+        {
+            "name": "Slypoint",
+            "biome": "desert",
+            "state": "Lasmoania",
+            "animals": [
+                "Cheetah",
+                "Eagle",
+                "Gazelle",
+                "Cape Buffalo",
+                "Gorilla",
+                "Antelope"
+            ]
+        },
+        {
+            "name": "Stonegrove",
+            "biome": "savanna",
+            "state": "Lasmoania",
+            "animals": [
+                "Zebra",
+                "Fox",
+                "Elephant",
+                "Squirrel",
+                "Beaver",
+                "Bison",
+                "Dragonfly"
+            ]
+        },
+        {
+            "name": "Silkbay",
+            "biome": "plains",
+            "state": "Plealor",
+            "animals": [
+                "Deer",
+                "Bear",
+                "Jaguar",
+                "Squirrel"
+            ]
+        },
+        {
+            "name": "Earthgrave",
+            "biome": "taiga",
+            "state": "Plealor",
+            "animals": [
+                "Rhinoceros",
+                "Tiger",
+                "Jaguar",
+                "Capybara",
+                "Gazelle",
+                "Eagle"
+            ]
+        },
+        {
+            "name": "Heartfair",
+            "biome": "tundra",
+            "state": "Plealor",
+            "animals": [
+                "Cougar",
+                "Zebra",
+                "Gazelle"
+            ]
+        },
+        {
+            "name": "Cliffport",
+            "biome": "swamp",
+            "state": "Chenia",
+            "animals": [
+                "Shad",
+                "Dolphin",
+                "Catfish",
+                "Crocodile"
+            ]
+        },
+        {
+            "name": "Heartdale",
+            "biome": "forest",
+            "state": "Chenia",
+            "animals": [
+                "Oribi",
+                "Otter",
+                "Butterfly",
+                "Meerkat",
+                "Moose"
+            ]
+        },
+        {
+            "name": "Bearstrand",
+            "biome": "desert",
+            "state": "Chenia",
+            "animals": [
+                "Zebra",
+                "Hawk",
+                "Snake",
+                "Jaguar",
+                "Meerkat",
+                "Elephant",
+                "Gorilla"
+            ]
+        },
+        {
+            "name": "Clifffront",
+            "biome": "tundra",
+            "state": "Spenia",
+            "animals": [
+                "Cape Buffalo",
+                "Okapi",
+                "Dragonfly",
+                "Bison",
+                "Moose",
+                "Cougar"
+            ]
+        },
+        {
+            "name": "Darkpoint",
+            "biome": "plains",
+            "state": "Spenia",
+            "animals": [
+                "Moose",
+                "Otter",
+                "Cheetah",
+                "Waterbuck",
+                "Eagle",
+                "Oribi",
+                "Giraffe"
+            ]
+        },
+        {
+            "name": "Ravenminster",
+            "biome": "swamp",
+            "state": "Spenia",
+            "animals": [
+                "Shad",
+                "Pike",
+                "Duck",
+                "Bass",
+                "Eel"
+            ]
+        },
+        {
+            "name": "Swanfalls",
+            "biome": "freshwater",
+            "state": "Bobria",
+            "animals": [
+                "Catfish",
+                "Turtle",
+                "Eel",
+                "Shad",
+                "Minnow",
+                "Trout"
+            ]
+        },
+        {
+            "name": "Ravenpost",
+            "biome": "savanna",
+            "state": "Bobria",
+            "animals": [
+                "Meerkat",
+                "Oribi",
+                "Jaguar",
+                "Squirrel",
+                "Bear"
+            ]
+        },
+        {
+            "name": "Limefall",
+            "biome": "taiga",
+            "state": "Bobria",
+            "animals": [
+                "Cape Buffalo",
+                "Butterfly",
+                "Capybara",
+                "Caiman"
+            ]
+        },
+        {
+            "name": "Basinmouth",
+            "biome": "desert",
+            "state": "Pleoland",
+            "animals": [
+                "Waterbuck",
+                "Salamander",
+                "Coyote",
+                "Elephant",
+                "Bear"
+            ]
+        },
+        {
+            "name": "Greenshore",
+            "biome": "swamp",
+            "state": "Pleoland",
+            "animals": [
+                "Shad",
+                "Duck",
+                "Otter",
+                "Sturgeon",
+                "Lamprey"
+            ]
+        },
+        {
+            "name": "Shademond",
+            "biome": "forest",
+            "state": "Pleoland",
+            "animals": [
+                "Leopard",
+                "Dragonfly",
+                "Elephant",
+                "Wild Cat"
+            ]
+        },
+        {
+            "name": "Saltpond",
+            "biome": "savanna",
+            "state": "Fruyya",
+            "animals": [
+                "Okapi",
+                "Salamander",
+                "Coyote",
+                "Cape Buffalo"
+            ]
+        },
+        {
+            "name": "Tradeharbor",
+            "biome": "taiga",
+            "state": "Fruyya",
+            "animals": [
+                "Bear",
+                "Hare",
+                "Gazelle",
+                "Beaver",
+                "Owl",
+                "Dragonfly",
+                "Cougar"
+            ]
+        },
+        {
+            "name": "Mightfield",
+            "biome": "tundra",
+            "state": "Fruyya",
+            "animals": [
+                "Coyote",
+                "Leopard",
+                "Okapi",
+                "Bear"
+            ]
+        },
+        {
+            "name": "Rustshield",
+            "biome": "freshwater",
+            "state": "Fruyya",
+            "animals": [
+                "Trout",
+                "Bass",
+                "Perch",
+                "Otter",
+                "Crocodile"
+            ]
+        },
+        {
+            "name": "Rustshield",
+            "biome": "plains",
+            "state": "Zobrurg",
+            "animals": [
+                "Eagle",
+                "Squirrel",
+                "Meerkat",
+                "Hare",
+                "Okapi"
+            ]
+        },
+        {
+            "name": "Highmaw",
+            "biome": "savanna",
+            "state": "Zobrurg",
+            "animals": [
+                "Gorilla",
+                "Jaguar",
+                "Wild Cat",
+                "Rhinoceros",
+                "Okapi"
+            ]
+        },
+        {
+            "name": "Bleakpeak",
+            "biome": "forest",
+            "state": "Zobrurg",
+            "animals": [
+                "Snake",
+                "Gecko",
+                "Caiman",
+                "Fox",
+                "Bison",
+                "Zebra",
+                "Waterbuck"
+            ]
+        },
+        {
+            "name": "Stonerun",
+            "biome": "tundra",
+            "state": "Zobrurg",
+            "animals": [
+                "Beaver",
+                "Moose",
+                "Fox",
+                "Salamander",
+                "Hawk",
+                "Leopard",
+                "Gecko"
+            ]
+        },
+        {
+            "name": "Goldpost",
+            "biome": "desert",
+            "state": "Zushoeca",
+            "animals": [
+                "Giraffe",
+                "Tiger",
+                "Gecko",
+                "Beaver",
+                "Moose"
+            ]
+        },
+        {
+            "name": "Mistcross",
+            "biome": "taiga",
+            "state": "Zushoeca",
+            "animals": [
+                "Oribi",
+                "Deer",
+                "Snake",
+                "Hawk",
+                "Leopard"
+            ]
+        },
+        {
+            "name": "Knighthorn",
+            "biome": "freshwater",
+            "state": "Zushoeca",
+            "animals": [
+                "Duck",
+                "Crab",
+                "Shad"
+            ]
+        },
+        {
+            "name": "Quickhold",
+            "biome": "plains",
+            "state": "Fleastan",
+            "animals": [
+                "Salamander",
+                "Caiman",
+                "Jaguar"
+            ]
+        },
+        {
+            "name": "Silentdrift",
+            "biome": "swamp",
+            "state": "Fleastan",
+            "animals": [
+                "Pike",
+                "Duck",
+                "Turtle",
+                "Otter",
+                "Catfish",
+                "Crocodile",
+                "Lamprey"
+            ]
+        },
+        {
+            "name": "Brittlemoor",
+            "biome": "freshwater",
+            "state": "Fleastan",
+            "animals": [
+                "Eel",
+                "Crocodile",
+                "Bass",
+                "Dragonfly",
+                "Trout",
+                "Catfish",
+                "Perch"
+            ]
+        },
+        {
+            "name": "Bleakstall",
+            "biome": "taiga",
+            "state": "Gliadal",
+            "animals": [
+                "Squirrel",
+                "Otter",
+                "Butterfly",
+                "Zebra"
+            ]
+        },
+        {
+            "name": "Shroudgrave",
+            "biome": "desert",
+            "state": "Gliadal",
+            "animals": [
+                "Leopard",
+                "Cheetah",
+                "Elephant",
+                "Fox",
+                "Butterfly",
+                "Hare"
+            ]
+        },
+        {
+            "name": "Bronzebay",
+            "biome": "swamp",
+            "state": "Gliadal",
+            "animals": [
+                "Sturgeon",
+                "Otter",
+                "Pike",
+                "Crocodile",
+                "Lamprey",
+                "Perch"
+            ]
+        },
+        {
+            "name": "Springforest",
+            "biome": "tundra",
+            "state": "Gliadal",
+            "animals": [
+                "Caiman",
+                "Owl",
+                "Beaver",
+                "Bear",
+                "Lion"
+            ]
+        },
+        {
+            "name": "Roguefrost",
+            "biome": "plains",
+            "state": "Bloyrus",
+            "animals": [
+                "Tiger",
+                "Elephant",
+                "Cougar",
+                "Waterbuck",
+                "Squirrel"
+            ]
+        },
+        {
+            "name": "Millminster",
+            "biome": "forest",
+            "state": "Bloyrus",
+            "animals": [
+                "Lion",
+                "Bison",
+                "Owl",
+                "Gecko",
+                "Leopard",
+                "Rhinoceros",
+                "Coyote"
+            ]
+        },
+        {
+            "name": "Purespell",
+            "biome": "savanna",
+            "state": "Bloyrus",
+            "animals": [
+                "Butterfly",
+                "Tiger",
+                "Bison",
+                "Bear",
+                "Cougar",
+                "Cape Buffalo"
+            ]
+        },
+        {
+            "name": "Highwallow",
+            "biome": "savanna",
+            "state": "Ubrein",
+            "animals": [
+                "Gorilla",
+                "Monkey",
+                "Butterfly",
+                "Gazelle",
+                "Meerkat",
+                "Caiman"
+            ]
+        },
+        {
+            "name": "Springbay",
+            "biome": "taiga",
+            "state": "Ubrein",
+            "animals": [
+                "Cougar",
+                "Fox",
+                "Okapi",
+                "Snake",
+                "Butterfly"
+            ]
+        },
+        {
+            "name": "Snowband",
+            "biome": "freshwater",
+            "state": "Ubrein",
+            "animals": [
+                "Duck",
+                "Bass",
+                "Shad",
+                "Eel",
+                "Pike",
+                "Pink Dolphin"
+            ]
+        },
+        {
+            "name": "Roguekeep",
+            "biome": "plains",
+            "state": "Aspary",
+            "animals": [
+                "Gecko",
+                "Cape Buffalo",
+                "Jaguar",
+                "Rhinoceros",
+                "Capybara",
+                "Snake"
+            ]
+        },
+        {
+            "name": "Rockcall",
+            "biome": "desert",
+            "state": "Aspary",
+            "animals": [
+                "Caiman",
+                "Salamander",
+                "Elephant",
+                "Waterbuck"
+            ]
+        },
+        {
+            "name": "Smallhand",
+            "biome": "swamp",
+            "state": "Aspary",
+            "animals": [
+                "Perch",
+                "Minnow",
+                "Catfish",
+                "Eel",
+                "Crocodile",
+                "Dragonfly"
+            ]
+        },
+        {
+            "name": "Autumnside",
+            "biome": "tundra",
+            "state": "Aspary",
+            "animals": [
+                "Leopard",
+                "Eagle",
+                "Moose"
+            ]
+        },
+        {
+            "name": "Raventide",
+            "biome": "forest",
+            "state": "Cleasal",
+            "animals": [
+                "Hawk",
+                "Waterbuck",
+                "Capybara",
+                "Cape Buffalo",
+                "Oribi",
+                "Rhinoceros",
+                "Antelope"
+            ]
+        },
+        {
+            "name": "Irondrift",
+            "biome": "taiga",
+            "state": "Cleasal",
+            "animals": [
+                "Dragonfly",
+                "Deer",
+                "Gorilla"
+            ]
+        },
+        {
+            "name": "Madbreach",
+            "biome": "tundra",
+            "state": "Cleasal",
+            "animals": [
+                "Capybara",
+                "Waterbuck",
+                "Giraffe"
+            ]
+        }
+    ]
+}

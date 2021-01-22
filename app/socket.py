@@ -1,6 +1,6 @@
 import json
 from flask import session
-from flask_socketio import SocketIO, emit, join_room, leave_room
+from flask_socketio import SocketIO, emit, join_room
 from app import app, game_database, room_manager
 
 socketio = SocketIO(app, async_mode='threading')
@@ -19,17 +19,6 @@ def connect_user():
 
     user.connections += 1
 
-    output = {
-        'users' : room.get_display_names_and_statuses(),
-        'hints' : room.given_hints,
-        'query_count' : user.query_count,
-        }
-
-    # add end round data if the room is currently in that phase
-    if room.status == 2:
-        output['user_query_counts'] = room.get_user_query_counts()
-        output['correct_location'] = room.location.name
-
     # if user was disconnected, reconnect and remove disconnected flag
     if user.status == 0:
         user.status = 1
@@ -41,6 +30,17 @@ def connect_user():
     elif user.status == 2:
         user.status = 1
         emit('add_user', user.display_name, room=room.room_code)
+        
+    output = {
+        'users' : room.get_display_names_and_statuses(),
+        'hints' : room.given_hints,
+        'query_count' : user.query_count,
+        }
+
+    # add end round data if the room is currently in that phase
+    if room.status == 2:
+        output['user_query_counts'] = room.get_user_query_counts()
+        output['correct_location'] = room.location.name
 
     join_room(room.room_code)
 

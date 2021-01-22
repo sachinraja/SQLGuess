@@ -9,6 +9,7 @@ from flask_socketio import SocketIO
 from app import game_database
 
 socketio = None
+room_manager = None
 
 class User():
     def __init__(self, display_name : str):
@@ -51,7 +52,8 @@ class Room():
         self._generate_answer_and_hints()
         self.given_hints = []
 
-        self.start_time = 12
+        self.is_closed = False
+        self.start_time = 80
         self.current_time = self.start_time
         self.status = 0 # 0 = waiting for users to connect, 1 = game started and in round, 2 = in-between rounds
 
@@ -76,6 +78,11 @@ class Room():
 
             if not hint_round == hints_count - 1:
                 self._send_hint()
+        
+         # Check if the room was closed
+        if self.is_closed:
+            room_manager.close_room(self)
+            return
 
         self.status = 2
         socketio.emit('end_round', json.dumps({'user_query_counts' : self.get_user_query_counts(), 'correct_location' : self.location.name}), room=self.room_code)
@@ -217,6 +224,22 @@ class Room():
         user = self.get_user(user_conn_id)
         user.status = 0
 
+        self._check_empty()
+
+    def _check_empty(self) -> None:
+        """Checks if the room is empty (no user has any connections)."""
+
+        room_empty = not any(user.connections > 0 for user in self.users)
+
+        if room_empty:
+            # mark for closure so thread doesn't send any events later on
+            if self.status == 1:
+                self.is_closed = True
+
+            # close immediately if there is no thread
+            else:
+                room_manager.close_room(self)
+
     def validate_user(self, user_conn_id : uuid.UUID) -> bool:
         """Check if a user is allowed to connect to the room.
 
@@ -261,10 +284,10 @@ class Room():
 
     def _generate_answer_and_hints(self) -> None:
         """Create the answer and hints for this room."""
+
         self.location, self.available_hints = game_database.get_random_location()
         random.shuffle(self.available_hints)
         self.answer = self.location.name.lower()
-        print(self.answer)
 
     def _send_hint(self) -> None:
         """Send a hint to the users in the room."""
@@ -351,6 +374,7 @@ class RoomManager():
 
         self._active_rooms.remove(room)
         self._open_room_ids.append(room.room_id)
+
     def register_socketio(self, socketio_in : SocketIO) -> None:
         """Register the socket.io connection manager for room management.
 
@@ -360,3 +384,13 @@ class RoomManager():
 
         global socketio
         socketio = socketio_in
+    
+    def register_room_manager(self, room_manager_in) -> None:
+        """Register the room manager for use in the module.
+
+        Args:
+            room_manager (RoomManager): The room manager.
+        """
+
+        global room_manager
+        room_manager = room_manager_in

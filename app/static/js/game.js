@@ -108,8 +108,52 @@ function emitStartGame(){
     socket.emit("start_game");
 }
 
-function loadRoom(roomStatusArg, currentTime){
+function displayRoomCode(roomCode){
+    const letter_pairs = {
+        "a": "Alpha",
+        "b": "Bravo",
+        "c": "Charlie",
+        "d": "Delta",
+        "e": "Echo",
+        "f": "Foxtrot",
+        "g": "Golf",
+        "h": "Hotel",
+        "i": "India",
+        "j": "Juliet",
+        "k": "Kilo",
+        "l": "Lima",
+        "m": "Mike",
+        "n": "November",
+        "o": "Oscar",
+        "p": "Papa",
+        "q": "Quebec",
+        "r": "Romeo",
+        "s": "Sierra",
+        "t": "Tango",
+        "u": "Uniform",
+        "v": "Victor",
+        "w": "Whiskey",
+        "x": "X-ray",
+        "y": "Yankee",
+        "z": "Zulu"
+    }
+
+    for (let letter of roomCode){
+        let letterWord = letter_pairs[letter];
+        let letterStrong = document.createElement("strong");
+        letterStrong.textContent = letterWord[0];
+        roomCodeStringElement.appendChild(letterStrong);
+
+        let letterSpan = document.createElement("span");
+        letterSpan.textContent = letterWord.slice(1) + " ";
+        roomCodeStringElement.appendChild(letterSpan);
+    }
+}
+
+function loadRoom(roomStatusArg, roomCode, currentTime){
     roomStatus = roomStatusArg;
+    displayRoomCode(roomCode);
+
     if (roomStatus == 1){
         timer.setTime(currentTime);
         timer.start();
@@ -123,7 +167,6 @@ function loadRoom(roomStatusArg, currentTime){
 
     else if (roomStatus == 2){
         hideAllContainers();
-
     }
 }
 
@@ -255,6 +298,8 @@ const lobbyContainer = document.getElementById("lobby");
 const gameRoomContainer = document.getElementById("gameRoom");
 const endRoundContainer = document.getElementById("endRound");
 const endGameContainer = document.getElementById("endGame");
+
+const roomCodeStringElement = document.getElementById("roomCodeString");
 
 const endRoundDataTBody = document.getElementById("endRoundData");
 const endRoundCorrectLocation = document.getElementById("correctLocation");

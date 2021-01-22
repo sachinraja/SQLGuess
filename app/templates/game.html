@@ -16,7 +16,7 @@
 
 <script>
     onload = function(){ 
-        loadRoom({{ room_status }}, {{ current_time }}); 
+        loadRoom({{ room_status }}, "{{ room_code }}", {{ current_time }}); 
     };
 
 </script>
@@ -25,6 +25,7 @@
 {% block content %}
 <div id="lobby">
     <div class="container mt-4">
+        <p id="roomCodeString" class="display-5 text-light text-center"></p>
         <div id="displayNames" class="row"></div>
 
         {% if is_host %}

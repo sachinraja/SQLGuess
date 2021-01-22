@@ -49,13 +49,11 @@ def connect_user():
 
 @socketio.on('disconnect')
 def remove_user():
-    print("disconnect 0")
     room_code = session.get('room_code')
     room = room_manager.get_room(room_code)
     if not room:
         return
 
-    print("disconnect 1")
     user_conn_id = session.get('_id')
     if not user_conn_id:
         return
@@ -67,7 +65,6 @@ def remove_user():
     user = room.get_user(user_conn_id)
     user.connections -= 1
 
-    print("Connections:", user.connections)
     # if user does not have any other connections, disconnect
     if not user.connections:
         room.disconnect_user(user_conn_id)

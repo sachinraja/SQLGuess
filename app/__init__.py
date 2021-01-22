@@ -9,4 +9,5 @@ from app.app import app, register_blueprints
 from app.socket import socketio
 
 room_manager.register_socketio(socketio)
+room_manager.register_room_manager(room_manager)
 register_blueprints()

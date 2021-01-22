@@ -126,3 +126,6 @@ class GameDatabase():
                         session.refresh(animal)
 
                     session.add(AnimalLocation(location_id=insert_location.id, animal_id=animal.id))
+
+        # commit anything left (last location's rows)
+        session.commit()
